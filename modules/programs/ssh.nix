@@ -14,6 +14,9 @@
       "github.com" = {
         identityFile = "~/.ssh/github.com";
       };
+      "gitlab.kitware.com" = {
+        identityFile = "~/.ssh/gitlab.kitware.com";
+      };
     };
   };
 
