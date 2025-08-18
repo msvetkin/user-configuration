@@ -11,6 +11,7 @@
       };
       initExtra = ''
         PAGER=less;
+        LESS="-FRX" # -F: Quit if fits on one screen, -R: Raw control characters, -X: Don't clear screen on exit
       '';
       oh-my-zsh = {
         enable = true;
