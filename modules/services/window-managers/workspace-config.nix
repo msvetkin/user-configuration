@@ -14,10 +14,10 @@ let
     "5:term"
     "6:ide"
     "7:browser"
-    "8:chats"
-    "9:browser"
-    "10:audio"
-    "11:any"
+    "8:browser"
+    "9:chats"
+    "10:browser"
+    "11:audio"
     "12:any"
   ];
 
@@ -48,11 +48,11 @@ in
       display = builtins.elemAt displays 0;
     }) ++
     (setDisplay {
-      workspaces = lib.lists.sublist 3 4 templates;
+      workspaces = lib.lists.sublist 3 5 templates;
       display = builtins.elemAt displays 1;
     }) ++
     (setDisplay {
-      workspaces = lib.lists.sublist 7 5 templates;
+      workspaces = lib.lists.sublist 8 5 templates;
       display = builtins.elemAt displays 2;
     })
   else
