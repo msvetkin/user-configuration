@@ -9,6 +9,10 @@
     enable = true;
     enableDefaultConfig = false;
     matchBlocks = {
+      "*" = {
+        forwardAgent = false;
+      };
+
       "gitlab.com" = {
         identityFile = "~/.ssh/gitlab.com";
       };
