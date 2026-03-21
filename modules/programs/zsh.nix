@@ -10,8 +10,10 @@
         ll = "ls -l";
       };
       initExtra = ''
-        PAGER=less;
-        LESS="-FRX" # -F: Quit if fits on one screen, -R: Raw control characters, -X: Don't clear screen on exit
+        PAGER='less -X -F';
+        if [[ $(uname -m) == 'arm64' ]]; then
+             eval "$(/opt/homebrew/bin/brew shellenv)"
+        fi
       '';
       oh-my-zsh = {
         enable = true;

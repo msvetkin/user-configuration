@@ -2,6 +2,7 @@
   inputs = {
     # Specify the source of Home Manager and Nixpkgs.
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    # nixpkgs.url = "path:/Users/trilla/Downloads/nixpkgs-b40629efe5d6ec48dd1efba650c797ddbd39ace0";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
