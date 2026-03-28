@@ -7,6 +7,7 @@
 
   programs.ssh = {
     enable = true;
+    enableDefaultConfig = false;
     matchBlocks = {
       "gitlab.com" = {
         identityFile = "~/.ssh/gitlab.com";

@@ -9,14 +9,16 @@
     # "\${XDG_DATA_DIRS}:${pkgs.git}/share/git/contrib/completion:"
   # ];
 
+  programs.difftastic = {
+    enable = true;
+    git.enable = true;
+    options.background = "dark";
+  };
+
   programs.git = {
     enable = true;
-    aliases = {
+    settings.alias = {
       meld = "difftool -y -t meld";
-    };
-    difftastic = {
-      enable = true;
-      background = "dark";
     };
     lfs.enable = true;
   };
