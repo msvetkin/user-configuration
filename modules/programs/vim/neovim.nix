@@ -195,7 +195,19 @@ in {
     '';
     initLua = ''
       -- Colorscheme
-      require('kanagruvbox').setup({ theme = "wave" })
+      require('kanagruvbox').setup({
+        theme = "wave",
+        overrides = function(colors)
+          local p = colors.palette
+          return {
+            -- C++ keyword differentiation (Gruvbox-style granularity, Kanagawa colors)
+            cppStructure    = { fg = p.springBlue },    -- template, typename   #7FB4CA
+            cppStatement    = { fg = p.peachRed },      -- requires             #FF5D62
+            cppStorageClass = { fg = p.autumnYellow },  -- constexpr, static…   #DCA561
+            cppModifier     = { fg = p.boatYellow2 },   -- explicit, virtual…   #C0A36E
+          }
+        end,
+      })
       vim.cmd('colorscheme kanagruvbox')
 
       -- Treesitter (v1 API)
