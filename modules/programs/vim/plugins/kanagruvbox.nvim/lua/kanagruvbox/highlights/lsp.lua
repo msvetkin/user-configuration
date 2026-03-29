@@ -4,6 +4,7 @@ local M = {}
 function M.setup(colors, config)
     config = config or require("kanagruvbox").config
     local theme = colors.theme
+    local palette = colors.palette
     return {
         -- ["@lsp.type.class"] = { link = "Structure" },
         -- ["@lsp.type.decorator"] = { link = "Function" },
@@ -53,6 +54,20 @@ function M.setup(colors, config)
         ["@lsp.typemod.variable.injected"] = { link = "@variable" },
 
         ["@lsp.typemod.function.readonly"] = { fg = theme.syn.fun, bold = true },
+
+        -- C++ semantic token overrides
+        -- Template type parameter names (E, T, Error…): Type → waveAqua2 too close
+        -- to cppStructure → springBlue. carpYellow gives clear contrast.
+        ["@lsp.type.typeParameter"] = { fg = palette.carpYellow },
+
+        -- Class member fields (error_, value_…): property → Identifier → carpYellow,
+        -- collides with typeParameter. springBlue matches @variable.member semantics.
+        ["@lsp.type.property"] = { fg = palette.springBlue },
+
+        -- @lsp.mod.readonly paints ALL readonly tokens as Constant, making const-ref
+        -- parameters indistinguishable from const methods. Restore per-kind colors.
+        ["@lsp.typemod.parameter.readonly"] = { link = "@variable.parameter" },
+        ["@lsp.typemod.method.readonly"]    = { fg = theme.syn.fun, bold = true },
     }
 end
 

@@ -5,6 +5,7 @@ local M = {}
 ---@param config? KanagawaConfig
 function M.setup(colors, config)
     local theme = colors.theme
+    local palette = colors.palette
     config = config or require("kanagruvbox").config
 
     return {
@@ -97,6 +98,12 @@ function M.setup(colors, config)
         -- markdownH1 = {},
         -- markdownH2 = {},
         -- markdownLinkText = {},
+
+        -- C++ keyword differentiation (Gruvbox-style granularity, Kanagawa colors)
+        -- cppStatement omitted: covers requires/public/using/new/delete — too heterogeneous.
+        cppStructure    = { fg = palette.springBlue },    -- template, typename   #7FB4CA
+        cppStorageClass = { fg = palette.autumnYellow },  -- constexpr, static…   #DCA561
+        cppModifier     = { fg = palette.boatYellow2 },   -- explicit, virtual…   #C0A36E
     }
 end
 
