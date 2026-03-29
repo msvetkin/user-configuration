@@ -56,9 +56,9 @@ function M.setup(colors, config)
         ["@lsp.typemod.function.readonly"] = { fg = theme.syn.fun, bold = true },
 
         -- Standard library namespace (std::) vs user namespace (foo::):
-        -- both resolve to @lsp.type.namespace → Type. The defaultLibrary modifier
-        -- distinguishes them — use waveAqua1 (muted teal) vs Type's waveAqua2 (brighter).
-        ["@lsp.typemod.namespace.defaultLibrary"] = { fg = palette.waveAqua1 },
+        -- both resolve to @lsp.type.namespace → Type (waveAqua2 teal).
+        -- crystalBlue (#7E9CD8) is a distinct proper blue vs teal — clear hue shift.
+        ["@lsp.typemod.namespace.defaultLibrary"] = { fg = palette.crystalBlue },
 
         -- C++ semantic token overrides
         -- Template type parameter names (E, T, Error…): Type → waveAqua2 too close

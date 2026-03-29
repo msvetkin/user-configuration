@@ -104,6 +104,10 @@ function M.setup(colors, config)
         cppStructure    = { fg = palette.springBlue },    -- template, typename   #7FB4CA
         cppStorageClass = { fg = palette.autumnYellow },  -- constexpr, static…   #DCA561
         cppModifier     = { fg = palette.boatYellow2 },   -- explicit, virtual…   #C0A36E
+
+        -- struct/class/enum/union keywords: cStructure → Type (waveAqua2) makes the
+        -- keyword same color as the type name. Treat them as keywords instead.
+        cStructure = { link = "Keyword" },
     }
 end
 
