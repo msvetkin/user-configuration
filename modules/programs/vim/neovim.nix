@@ -213,6 +213,11 @@ in {
             -- carpYellow gives strong contrast (matches Gruvbox's GruvboxYellow intent).
             ["@lsp.type.typeParameter"] = { fg = p.carpYellow },
 
+            -- Class member fields (error_, value_, data_…):
+            -- @lsp.type.property → Identifier → carpYellow, same as typeParameter.
+            -- Use springBlue to match @variable.member semantics and contrast with E.
+            ["@lsp.type.property"] = { fg = p.springBlue },
+
             -- Fix: @lsp.mod.readonly overrides ALL readonly tokens to Constant color,
             -- making e.g. a const-ref parameter look identical to a const method.
             -- Restore per-kind colors at the higher-priority typemod level.
