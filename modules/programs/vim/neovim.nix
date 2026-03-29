@@ -1,5 +1,11 @@
 { config, pkgs, ... }:
 let
+  clionColors = import ./clion-colors.nix;
+  enableClionColors = false;
+  kanagruvbox = pkgs.vimUtils.buildVimPlugin {
+    name = "kanagruvbox-nvim";
+    src = ./plugins/kanagruvbox.nvim;
+  };
   vimFswitch = pkgs.vimUtils.buildVimPluginFrom2Nix {
     name = "vim-fswitch";
     src = pkgs.fetchFromGitHub {
@@ -15,8 +21,19 @@ in {
     enable = true;
     defaultEditor = true;
     plugins = with pkgs.vimPlugins; [
-      # Colorscheme
+      # Colorschemes
+      kanagruvbox
       vim-code-dark
+      catppuccin-nvim
+      tokyonight-nvim
+      kanagawa-nvim
+      onedark-nvim
+      rose-pine
+      nightfox-nvim
+      gruvbox-nvim
+      nordic-nvim
+      edge
+      sonokai
 
       # Treesitter
       nvim-treesitter
@@ -27,6 +44,7 @@ in {
       nvim-treesitter-parsers.toml
       nvim-treesitter-parsers.lua
       nvim-treesitter-parsers.rust
+      nvim-treesitter-parsers.cmake
 
       # LSP / completion
       nvim-lspconfig
@@ -133,7 +151,7 @@ in {
       map <F1> :nohl<CR>
       imap <F1> <ESC>:nohl<CR>
 
-      colorscheme codedark
+      " colorscheme set in initLua (gruvbox)
 
       set completeopt=menuone,noselect
 
@@ -176,6 +194,10 @@ in {
       let g:neovide_scroll_animation_length = 0
     '';
     initLua = ''
+      -- Colorscheme
+      require('kanagruvbox').setup({ contrast = "medium", italic_comments = true })
+      vim.cmd('colorscheme kanagruvbox')
+
       -- Treesitter (v1 API)
       require('nvim-treesitter').setup()
 
@@ -216,6 +238,13 @@ in {
         capabilities = require('cmp_nvim_lsp').default_capabilities(),
       })
       vim.lsp.enable({ 'clangd', 'rust_analyzer', 'pyright' })
+
+      -- Show diagnostic float automatically when cursor rests on an error
+      vim.api.nvim_create_autocmd('CursorHold', {
+        callback = function()
+          vim.diagnostic.open_float(nil, { focus = false, scope = 'cursor' })
+        end,
+      })
 
       vim.keymap.set('n', '[g', vim.diagnostic.goto_prev, { silent = true })
       vim.keymap.set('n', ']g', vim.diagnostic.goto_next, { silent = true })
@@ -260,6 +289,8 @@ in {
       -- autopairs + cmp integration
       local cmp_autopairs = require('nvim-autopairs.completion.cmp')
       cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
+
+      ${if enableClionColors then clionColors else ""}
     '';
   };
 
