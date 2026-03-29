@@ -48,7 +48,7 @@ function M.set(p)
 
   -- Variables
   hi("@variable",              { fg = p.variable })
-  hi("@variable.builtin",      { fg = p.builtin,   italic = true })
+  hi("@variable.builtin",      { fg = p.builtin })
   hi("@variable.parameter",    { fg = p.parameter })
   hi("@variable.member",       { fg = p.member })
 
@@ -90,7 +90,7 @@ function M.set(p)
 
   -- Types
   hi("@type",                  { fg = p.type })
-  hi("@type.builtin",          { fg = p.type,      italic = true })
+  hi("@type.builtin",          { fg = p.type })
   hi("@type.definition",       { fg = p.type })
   hi("@type.qualifier",        { fg = p.keyword })  -- const, volatile
 
@@ -102,7 +102,7 @@ function M.set(p)
 
   -- Namespaces
   hi("@module",                { fg = p.namespace })
-  hi("@module.builtin",        { fg = p.namespace, italic = true })
+  hi("@module.builtin",        { fg = p.namespace })
   hi("@namespace",             { fg = p.namespace })  -- legacy alias
 
   -- Comments

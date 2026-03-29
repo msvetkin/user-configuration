@@ -41,7 +41,7 @@ function M.set(p)
   hi("@lsp.type.struct",            { fg = p.type })
   hi("@lsp.type.enum",              { fg = p.type })
   hi("@lsp.type.interface",         { fg = p.type })
-  hi("@lsp.type.typeParameter",     { fg = p.type,      italic = true })  -- template params
+  hi("@lsp.type.typeParameter",     { fg = p.type })                      -- template params
   hi("@lsp.type.typedef",           { fg = p.type })
   hi("@lsp.type.concept",           { fg = p.type })                      -- C++20 concepts (no italic — requires clause reads poorly italic)
 
@@ -69,9 +69,9 @@ function M.set(p)
   hi("@lsp.type.comment",           { fg = p.comment })
 
   -- ── LSP semantic token modifiers ──────────────────────────────────────
-  hi("@lsp.mod.static",             { italic = true })        -- static members
-  hi("@lsp.mod.abstract",           { italic = true })
-  hi("@lsp.mod.virtual",            { italic = true })        -- virtual methods
+  hi("@lsp.mod.static",             {})
+  hi("@lsp.mod.abstract",           {})
+  hi("@lsp.mod.virtual",            {})
   hi("@lsp.mod.readonly",           { bold = true })          -- const / readonly
   hi("@lsp.mod.deprecated",         { strikethrough = true })
 

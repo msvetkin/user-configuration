@@ -108,30 +108,32 @@ function M.get(opts)
     type        = base.carpYellow,    -- types, classes, structs, typedefs
     func        = base.waveAqua2,     -- functions and methods
     namespace   = base.crystalBlue,   -- namespaces, modules
-    macro       = base.surimiOrange,  -- macros, preprocessor directives
+    macro       = base.waveRed,       -- macros, preprocessor directives (#include, #pragma, #define)
     constant    = base.sakuraPink,    -- constants, enum members
     string_     = base.springGreen,   -- string literals (trailing _ avoids Lua keyword)
     number      = base.sakuraPink,    -- numeric literals
     operator    = base.springViolet2, -- operators (+ - * :: -> etc.)
-    parameter   = base.springBlue,    -- function parameters
+    parameter   = base.surimiOrange,  -- function parameters (orangish)
     variable    = base.fujiWhite,     -- local/global variables
-    member      = base.springBlue,    -- struct/class field access
+    member      = base.boatYellow2,   -- struct/class field access (yellowish, darker than type)
     builtin     = base.waveAqua1,     -- stdlib / built-in types and functions
     special     = base.surimiOrange,  -- escape sequences, special chars
     error_fg    = base.waveRed,       -- inline error foreground
 
-    -- C++ specific keyword roles (mirrors Gruvbox's cppXxx groups)
+    -- C++ keyword roles — all map to oniViolet (purple) to match Kanagawa's aesthetic.
+    -- Treesitter overrides requires/template individually; legacy cppXxx groups
+    -- handle static_assert/nullptr (cppStatement → carpYellow) which treesitter misses.
     --
-    --  Gruvbox group    │ Gruvbox color  │ Kanagawa color      │ hex
-    -- ──────────────────┼────────────────┼─────────────────────┼──────────
-    --  cppStructure     │ GruvboxAqua    │ springBlue          │ #7FB4CA  (template, typename)
-    --  cppStatement     │ GruvboxRed     │ waveRed             │ #E46876  (requires)
-    --  cppStorageClass  │ GruvboxOrange  │ surimiOrange        │ #FFA066  (constexpr, static, extern)
-    --  cppModifier      │ GruvboxYellow  │ autumnYellow        │ #DCA561  (explicit, virtual, override)
-    cpp_structure = base.springBlue,   -- template, typename
-    cpp_statement = base.waveRed,      -- requires (C++20 concept constraints)
-    cpp_storage   = base.surimiOrange, -- constexpr, consteval, constinit, static, extern, inline, mutable
-    cpp_modifier  = base.autumnYellow, -- explicit, virtual, override, final, noexcept
+    --  legacy group     │ color               │ covers
+    -- ──────────────────┼─────────────────────┼──────────────────────────────
+    --  cppStructure     │ oniViolet (purple)   │ template, typename
+    --  cppStatement     │ carpYellow (yellow)  │ static_assert, nullptr, this, new, delete
+    --  cppStorageClass  │ oniViolet (purple)   │ constexpr, consteval, static, extern, inline
+    --  cppModifier      │ oniViolet (purple)   │ explicit, virtual, override, final
+    cpp_structure = base.oniViolet,   -- template, typename → purple
+    cpp_statement = base.carpYellow,  -- static_assert, nullptr → yellowish (treesitter doesn't capture these)
+    cpp_storage   = base.oniViolet,   -- constexpr, consteval, static, extern → purple
+    cpp_modifier  = base.oniViolet,   -- explicit, virtual, override, final → purple
 
     -- UI
     border      = base.sumiInk4,

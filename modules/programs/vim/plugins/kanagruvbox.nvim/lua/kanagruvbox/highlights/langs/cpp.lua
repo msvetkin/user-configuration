@@ -32,11 +32,12 @@ function M.set(p)
   -- @keyword.modifier pointing to `keyword` (oniViolet) from syntax.lua
   -- and rely on the legacy groups above + clangd tokens below for precision.
 
-  -- `requires` has its own treesitter capture in newer grammars
-  hi("@keyword.requires",  { fg = p.cpp_statement, italic = false })  -- C++20 requires-clause / requires-expr
+  -- requires: treesitter captures it as @keyword, overriding the legacy cppStatement (yellow)
+  -- back to purple so it matches Kanagawa's treatment of requires as a plain keyword
+  hi("@keyword.requires",  { fg = p.keyword })
 
   -- template keyword (captured separately in some grammars)
-  hi("@keyword.template",  { fg = p.cpp_structure, italic = false })
+  hi("@keyword.template",  { fg = p.cpp_structure })
 
   -- ── Layer 3: clangd LSP semantic tokens ───────────────────────────────
 
@@ -50,12 +51,9 @@ function M.set(p)
   hi("@lsp.typemod.method.defaultLibrary",    { fg = p.builtin })  -- .push_back(), .size()
   hi("@lsp.typemod.namespace.defaultLibrary", { fg = p.builtin })  -- std:: itself
 
-  -- Static methods: italic to distinguish from regular instance methods
-  hi("@lsp.typemod.method.static",            { fg = p.func,      italic = true })
-  hi("@lsp.typemod.function.static",          { fg = p.func,      italic = true })
-
-  -- Virtual methods: italic (can be overridden by subclasses)
-  hi("@lsp.typemod.method.virtual",           { fg = p.func,      italic = true })
+  hi("@lsp.typemod.method.static",            { fg = p.func })
+  hi("@lsp.typemod.function.static",          { fg = p.func })
+  hi("@lsp.typemod.method.virtual",           { fg = p.func })
 
   -- Member variables: distinct blue tint from plain locals
   hi("@lsp.typemod.variable.classScope",      { fg = p.member })
@@ -70,12 +68,8 @@ function M.set(p)
   -- Global-scope macros: extra bold to catch eye (think MACRO_NAME usage)
   hi("@lsp.typemod.macro.globalScope",        { fg = p.macro,     bold = true })
 
-  -- Template type parameters (T, typename T): italic yellow distinguishes
-  -- them from concrete types at instantiation sites
-  hi("@lsp.typemod.type.functionScope",       { fg = p.type,      italic = true })
-
-  -- auto-deduced variables: subtle italic hint that the type is inferred
-  hi("@lsp.typemod.variable.deduced",         { fg = p.variable,  italic = true })
+  hi("@lsp.typemod.type.functionScope",       { fg = p.type })
+  hi("@lsp.typemod.variable.deduced",         { fg = p.variable })
 
   -- Deprecated symbols: strikethrough regardless of kind
   hi("@lsp.typemod.function.deprecated",      { fg = p.func,      strikethrough = true })
