@@ -199,12 +199,20 @@ in {
         theme = "wave",
         overrides = function(colors)
           local p = colors.palette
+          local t = colors.theme
           return {
             -- C++ keyword differentiation (Gruvbox-style granularity, Kanagawa colors)
+            -- cppStatement intentionally omitted: it covers requires/public/using/new/delete
+            -- which are too heterogeneous to color as one group.
             cppStructure    = { fg = p.springBlue },    -- template, typename   #7FB4CA
-            cppStatement    = { fg = p.peachRed },      -- requires             #FF5D62
             cppStorageClass = { fg = p.autumnYellow },  -- constexpr, static…   #DCA561
             cppModifier     = { fg = p.boatYellow2 },   -- explicit, virtual…   #C0A36E
+
+            -- Fix: @lsp.mod.readonly overrides ALL readonly tokens to Constant color,
+            -- making e.g. a const-ref parameter look identical to a const method.
+            -- Restore per-kind colors at the higher-priority typemod level.
+            ["@lsp.typemod.parameter.readonly"] = { link = "@variable.parameter" },
+            ["@lsp.typemod.method.readonly"]    = { fg = t.syn.fun, bold = true },
           }
         end,
       })
