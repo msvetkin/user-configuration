@@ -61,6 +61,11 @@ function M.setup(colors, config)
         ["@lsp.typemod.namespace.defaultLibrary"] = { fg = palette.crystalBlue },
 
         -- C++ semantic token overrides
+        -- Concepts (foo, constructible_from…): @lsp.type.concept → @lsp (undefined),
+        -- falls through to default fg, indistinguishable from plain variables.
+        -- sakuraPink is distinct from types (teal), keywords (violet), params (orange).
+        ["@lsp.type.concept"] = { fg = palette.sakuraPink },
+
         -- Template type parameter names (E, T, Error…): Type → waveAqua2 too close
         -- to cppStructure → springBlue. carpYellow gives clear contrast.
         ["@lsp.type.typeParameter"] = { fg = palette.carpYellow },
