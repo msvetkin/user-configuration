@@ -208,6 +208,11 @@ in {
             cppStorageClass = { fg = p.autumnYellow },  -- constexpr, static…   #DCA561
             cppModifier     = { fg = p.boatYellow2 },   -- explicit, virtual…   #C0A36E
 
+            -- Template type parameter names (Error, T, Value…):
+            -- Type → waveAqua2 #7AA89F is too close to cppStructure's springBlue #7FB4CA.
+            -- carpYellow gives strong contrast (matches Gruvbox's GruvboxYellow intent).
+            ["@lsp.type.typeParameter"] = { fg = p.carpYellow },
+
             -- Fix: @lsp.mod.readonly overrides ALL readonly tokens to Constant color,
             -- making e.g. a const-ref parameter look identical to a const method.
             -- Restore per-kind colors at the higher-priority typemod level.
