@@ -1,130 +1,103 @@
+-- local c = require("kanagruvbox.color")
 local M = {}
 
-local function hi(name, val)
-  vim.api.nvim_set_hl(0, name, val)
-end
+---@param colors KanagawaColors
+---@param config? KanagawaConfig
+function M.setup(colors, config)
+    local theme = colors.theme
+    config = config or require("kanagruvbox").config
 
-function M.set(p)
-  local ic = p.opts.italic_comments
-  local ik = p.opts.italic_keywords
+    return {
+        -- *Comment	any comment
+        Comment = vim.tbl_extend("force", { fg = theme.syn.comment }, config.commentStyle),
 
-  -- ── Legacy syntax groups (fallback for non-treesitter filetypes) ──────
-  hi("Comment",        { fg = p.comment,  italic = ic })
-  hi("Constant",       { fg = p.constant })
-  hi("String",         { fg = p.string_ })
-  hi("Character",      { fg = p.string_ })
-  hi("Number",         { fg = p.number })
-  hi("Boolean",        { fg = p.constant })
-  hi("Float",          { fg = p.number })
-  hi("Identifier",     { fg = p.variable })
-  hi("Function",       { fg = p.func })
-  hi("Statement",      { fg = p.keyword,  italic = ik })
-  hi("Conditional",    { fg = p.keyword,  italic = ik })
-  hi("Repeat",         { fg = p.keyword,  italic = ik })
-  hi("Label",          { fg = p.keyword })
-  hi("Operator",       { fg = p.operator })
-  hi("Keyword",        { fg = p.keyword,  italic = ik })
-  hi("Exception",      { fg = p.keyword,  italic = ik })
-  hi("PreProc",        { fg = p.macro })
-  hi("Include",        { fg = p.macro })
-  hi("Define",         { fg = p.macro })
-  hi("Macro",          { fg = p.macro })
-  hi("PreCondit",      { fg = p.macro })
-  hi("Type",           { fg = p.type })
-  hi("StorageClass",   { fg = p.keyword })
-  hi("Structure",      { fg = p.type })
-  hi("Typedef",        { fg = p.type })
-  hi("Special",        { fg = p.special })
-  hi("SpecialChar",    { fg = p.special })
-  hi("Tag",            { fg = p.func })
-  hi("Delimiter",      { fg = p.fg_dim })
-  hi("SpecialComment", { fg = p.special,  italic = true })
-  hi("Debug",          { fg = p.warning })
-  hi("Underlined",     { underline = true })
-  hi("Error",          { fg = p.error })
-  hi("Todo",           { fg = p.warning,  bold = true })
+        -- *Constant	any constant
+        Constant = { fg = theme.syn.constant },
+        --  String		a string constant: "this is a string"
+        String = { fg = theme.syn.string },
+        --  Character	a character constant: 'c', '\n'
+        Character = { link = "String" },
+        --  Number		a number constant: 234, 0xff
+        Number = { fg = theme.syn.number },
+        --  Boolean	a boolean constant: TRUE, false
+        Boolean = { fg = theme.syn.constant, bold = true },
+        --  Float		a floating point constant: 2.3e10
+        Float = { link = "Number" },
 
-  -- ── Treesitter (@-prefixed) ───────────────────────────────────────────
+        -- *Identifier	any variable name
+        Identifier = { fg = theme.syn.identifier },
+        --  Function	function name (also: methods for classes)
+        Function = vim.tbl_extend("force", { fg = theme.syn.fun }, config.functionStyle),
 
-  -- Variables
-  hi("@variable",              { fg = p.variable })
-  hi("@variable.builtin",      { fg = p.builtin })
-  hi("@variable.parameter",    { fg = p.parameter })
-  hi("@variable.member",       { fg = p.member })
+        -- *Statement	any statement
+        Statement = vim.tbl_extend("force", { fg = theme.syn.statement }, config.statementStyle),
+        --  Conditional	if, then, else, endif, switch, etc.
+        --  Repeat		for, do, while, etc.
+        --  Label		case, default, etc.
+        --  Operator	"sizeof", "+", "*", etc.
+        Operator = { fg = theme.syn.operator },
+        --  Keyword	any other keyword
+        Keyword = vim.tbl_extend("force", { fg = theme.syn.keyword }, config.keywordStyle),
+        --  Exception	try, catch, throw
+        Exception = { fg = theme.syn.special2 },
 
-  -- Constants
-  hi("@constant",              { fg = p.constant })
-  hi("@constant.builtin",      { fg = p.constant,  bold = true })
-  hi("@constant.macro",        { fg = p.macro })
+        -- *PreProc	generic Preprocessor
+        PreProc = { fg = theme.syn.preproc },
+        --  Include	preprocessor #include
+        --  Define		preprocessor #define
+        --  Macro		same as Define
+        --  PreCondit	preprocessor #if, #else, #endif, etc.
 
-  -- Strings
-  hi("@string",                { fg = p.string_ })
-  hi("@string.escape",         { fg = p.special })
-  hi("@string.special",        { fg = p.special })
-  hi("@string.special.url",    { fg = p.namespace, underline = true })
+        -- *Type		int, long, char, etc.
+        Type = vim.tbl_extend("force", { fg = theme.syn.type }, config.typeStyle),
+        --  StorageClass	static, register, volatile, etc.
+        --  Structure	struct, union, enum, etc.
+        --  Typedef	A typedef
 
-  -- Numbers
-  hi("@number",                { fg = p.number })
-  hi("@number.float",          { fg = p.number })
-  hi("@boolean",               { fg = p.constant })
+        -- *Special	any special symbol
+        Special = { fg = theme.syn.special1 },
+        --  SpecialChar	special character in a constant
+        --  Tag		you can use CTRL-] on this
+        --  Delimiter	character that needs attention
+        Delimiter = { fg = theme.syn.punct },
+        --  SpecialComment	special things inside a comment
+        --  Debug		debugging statements
 
-  -- Functions
-  hi("@function",              { fg = p.func })
-  hi("@function.builtin",      { fg = p.builtin })
-  hi("@function.call",         { fg = p.func })
-  hi("@function.macro",        { fg = p.macro })
-  hi("@function.method",       { fg = p.func })
-  hi("@function.method.call",  { fg = p.func })
-  hi("@constructor",           { fg = p.type })
+        -- *Underlined	text that stands out, HTML links
+        Underlined = { fg = theme.syn.special1, underline = true },
+        Bold = { bold = true },
+        Italic = { italic = true },
 
-  -- Keywords
-  hi("@keyword",               { fg = p.keyword,  italic = ik })
-  hi("@keyword.conditional",   { fg = p.keyword,  italic = ik })
-  hi("@keyword.repeat",        { fg = p.keyword,  italic = ik })
-  hi("@keyword.return",        { fg = p.keyword,  italic = ik })
-  hi("@keyword.exception",     { fg = p.keyword,  italic = ik })
-  hi("@keyword.import",        { fg = p.macro })
-  hi("@keyword.operator",      { fg = p.operator })
-  hi("@keyword.type",          { fg = p.keyword })
-  hi("@keyword.modifier",      { fg = p.keyword })  -- const, static, inline, volatile
+        -- *Ignore		left blank, hidden  |hl-Ignore|
+        Ignore = { link = "NonText" },
 
-  -- Types
-  hi("@type",                  { fg = p.type })
-  hi("@type.builtin",          { fg = p.type })
-  hi("@type.definition",       { fg = p.type })
-  hi("@type.qualifier",        { fg = p.keyword })  -- const, volatile
+        -- *Error		any erroneous construct
+        Error = { fg = theme.diag.error },
 
-  -- Operators / punctuation
-  hi("@operator",              { fg = p.operator })
-  hi("@punctuation.bracket",   { fg = p.fg_dim })
-  hi("@punctuation.delimiter", { fg = p.fg_dim })
-  hi("@punctuation.special",   { fg = p.special })
+        -- *Todo		anything that needs extra attention; mostly the keywords TODO FIXME WARNING and XXX
+        Todo = { fg = theme.ui.fg_reverse, bg = theme.diag.info, bold = true },
 
-  -- Namespaces
-  hi("@module",                { fg = p.namespace })
-  hi("@module.builtin",        { fg = p.namespace })
-  hi("@namespace",             { fg = p.namespace })  -- legacy alias
+        qfLineNr = { link = "lineNr" },
+        qfFileName = { link = "Directory" },
 
-  -- Comments
-  hi("@comment",               { fg = p.comment,   italic = ic })
-  hi("@comment.documentation", { fg = p.comment,   italic = true })
-  hi("@comment.error",         { fg = p.error,     bold = true })
-  hi("@comment.warning",       { fg = p.warning,   bold = true })
-  hi("@comment.todo",          { fg = p.warning,   bold = true })
-  hi("@comment.note",          { fg = p.info,      bold = true })
+        -- htmlH1 = {},
+        -- htmlH2 = {},
 
-  -- Labels / tags
-  hi("@label",                 { fg = p.func })
-  hi("@tag",                   { fg = p.keyword })
-  hi("@tag.attribute",         { fg = p.type })
-  hi("@tag.delimiter",         { fg = p.fg_dim })
+        -- mkdHeading = {},
+        -- mkdCode = {},
+        -- mkdCodeDelimiter = {},
+        -- mkdCodeStart = {},
+        -- mkdCodeEnd = {},
+        -- mkdLink = {},
 
-  -- Misc
-  hi("@attribute",             { fg = p.macro })   -- [[nodiscard]], [[deprecated]]
-  hi("@property",              { fg = p.member })
-  hi("@diff.plus",             { fg = p.git_add })
-  hi("@diff.minus",            { fg = p.git_delete })
-  hi("@diff.delta",            { fg = p.git_change })
+        -- markdownHeadingDelimiter = {},
+        markdownCode = { fg = theme.syn.string },
+        markdownCodeBlock = { fg = theme.syn.string },
+        markdownEscape = { fg = "NONE" },
+        -- markdownH1 = {},
+        -- markdownH2 = {},
+        -- markdownLinkText = {},
+    }
 end
 
 return M

@@ -195,7 +195,7 @@ in {
     '';
     initLua = ''
       -- Colorscheme
-      require('kanagruvbox').setup({ contrast = "medium", italic_comments = true })
+      require('kanagruvbox').setup({ theme = "wave" })
       vim.cmd('colorscheme kanagruvbox')
 
       -- Treesitter (v1 API)
