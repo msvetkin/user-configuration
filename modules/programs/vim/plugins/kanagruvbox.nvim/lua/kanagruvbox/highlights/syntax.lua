@@ -107,7 +107,7 @@ function M.setup(colors, config)
 
         -- struct/class/enum/union keywords: cStructure → Type (waveAqua2) makes the
         -- keyword same color as the type name. Treat them as keywords instead.
-        cStructure = { link = "Keyword" },
+        cStructure = { fg = theme.syn.keyword },  -- no italic, unlike Keyword which uses keywordStyle
     }
 end
 
