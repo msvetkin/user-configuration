@@ -19,12 +19,12 @@ end
 function M.set(p)
   -- ── Layer 1: legacy vim C++ syntax groups ─────────────────────────────
   -- These fire even without treesitter and provide the finest keyword split.
-  hi("cppStructure",    { fg = p.cpp_structure })        -- template, typename
-  hi("cppStatement",    { fg = p.cpp_statement })        -- requires
-  hi("cppStorageClass", { fg = p.cpp_storage })          -- constexpr, consteval, constinit,
-                                                         -- static, extern, inline, mutable
-  hi("cppModifier",     { fg = p.cpp_modifier })         -- explicit, virtual, override, final,
-                                                         -- noexcept (as specifier)
+  hi("cppStructure",    { fg = p.cpp_structure, italic = false })  -- template, typename
+  hi("cppStatement",    { fg = p.cpp_statement, italic = false })  -- requires
+  hi("cppStorageClass", { fg = p.cpp_storage,   italic = false })  -- constexpr, consteval, constinit,
+                                                                    -- static, extern, inline, mutable
+  hi("cppModifier",     { fg = p.cpp_modifier,  italic = false })  -- explicit, virtual, override, final,
+                                                                    -- noexcept (as specifier)
 
   -- ── Layer 2: treesitter (best-effort — TS groups are less granular) ───
   -- nvim-treesitter C++ grammar puts most specifiers under @keyword.modifier.
@@ -33,17 +33,22 @@ function M.set(p)
   -- and rely on the legacy groups above + clangd tokens below for precision.
 
   -- `requires` has its own treesitter capture in newer grammars
-  hi("@keyword.requires",  { fg = p.cpp_statement })    -- C++20 requires-clause / requires-expr
+  hi("@keyword.requires",  { fg = p.cpp_statement, italic = false })  -- C++20 requires-clause / requires-expr
 
   -- template keyword (captured separately in some grammars)
-  hi("@keyword.template",  { fg = p.cpp_structure })
+  hi("@keyword.template",  { fg = p.cpp_structure, italic = false })
 
   -- ── Layer 3: clangd LSP semantic tokens ───────────────────────────────
 
-  -- Standard library types look slightly different from user-defined ones
+  -- Standard library symbols: waveAqua1 (muted teal) vs user-defined waveAqua2 (brighter teal)
+  -- This covers: std::vector, std::is_void_v, std::cout, std::string, etc.
   hi("@lsp.typemod.type.defaultLibrary",      { fg = p.builtin })
   hi("@lsp.typemod.class.defaultLibrary",     { fg = p.builtin })
   hi("@lsp.typemod.struct.defaultLibrary",    { fg = p.builtin })
+  hi("@lsp.typemod.variable.defaultLibrary",  { fg = p.builtin })  -- std::is_void_v, std::cout
+  hi("@lsp.typemod.function.defaultLibrary",  { fg = p.builtin })  -- std::move, std::forward
+  hi("@lsp.typemod.method.defaultLibrary",    { fg = p.builtin })  -- .push_back(), .size()
+  hi("@lsp.typemod.namespace.defaultLibrary", { fg = p.builtin })  -- std:: itself
 
   -- Static methods: italic to distinguish from regular instance methods
   hi("@lsp.typemod.method.static",            { fg = p.func,      italic = true })

@@ -43,7 +43,7 @@ function M.set(p)
   hi("@lsp.type.interface",         { fg = p.type })
   hi("@lsp.type.typeParameter",     { fg = p.type,      italic = true })  -- template params
   hi("@lsp.type.typedef",           { fg = p.type })
-  hi("@lsp.type.concept",           { fg = p.type,      italic = true })  -- C++20 concepts
+  hi("@lsp.type.concept",           { fg = p.type })                      -- C++20 concepts (no italic — requires clause reads poorly italic)
 
   -- Functions / methods
   hi("@lsp.type.function",          { fg = p.func })
