@@ -18,8 +18,6 @@
             position = "3328x0";
             primary = true;
             rate = "60.00";
-            # dpi = 144;
-            # x-prop-non_desktop = 0;
           };
           HDMI-0 = {
             crtc = 1;
@@ -28,7 +26,6 @@
             mode = "2560x1440";
             filter = "bilinear";
             rate = "59.95";
-            # x-prop-non_desktop = 0;
             transform = [
               [ 1.299988 0.000000 0.000000 ]
               [ 0.000000 1.299988 0.000000 ]
@@ -84,7 +81,7 @@
         notify-i3 = "${pkgs.i3}/bin/i3-msg restart";
         #change-background = "${pkgs.variety}/bin/variety --next";
         change-dpi = ''
-          case "$(hostname)" in
+          case "$AUTORANDR_CURRENT_PROFILE" in
             default)
               DPI=96
               ;;
