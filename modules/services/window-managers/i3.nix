@@ -77,7 +77,7 @@ in {
           "${workspaceForChats}" = [
             { class = "^TelegramDesktop$"; }
             { class = "^Slack$"; }
-            { class = "^Discord$"; }
+            { class = "^discord$"; }
           ];
           "${workspaceForAudio}" = [
             { class = "^Pavucontrol$"; }
