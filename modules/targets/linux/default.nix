@@ -3,6 +3,10 @@ let
   pkgs = import nixpkgs {
     system = "x86_64-linux";
     overlays = [ nixgl.overlay ];
+    config.allowUnfreePredicate = pkg: builtins.elem (pkgs.lib.getName pkg) [
+      "nvidia-x11"
+    ];
+    config.nvidia.acceptLicense = true;
   };
 in
 {

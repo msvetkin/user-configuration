@@ -65,6 +65,11 @@ in
   };
 
   targets.genericLinux.enable = true;
+  targets.genericLinux.gpu.nvidia = {
+    enable = true;
+    version = "580.126.09";
+    sha256 = "sha256-TKxT5I+K3/Zh1HyHiO0kBZokjJ/YCYzq/QiKSYmG7CY=";
+  };
 
   xdg.mimeApps = {
     enable = true;
@@ -88,7 +93,7 @@ in
   imports = [
     ../common.nix
     ../../programs/dev.nix
-    ../../programs/vim/vim.nix
+    ../../programs/vim/neovim.nix
     ../../services/window-managers/i3.nix
     ../../services/picom.nix
     ../../misc/gtk.nix
