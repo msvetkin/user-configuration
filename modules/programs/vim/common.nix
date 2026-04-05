@@ -110,8 +110,8 @@ in
 
     set shortmess+=tToOI
 
-    set guifont=Liberation\ Mono:h16
-    "set guifont=Liberation\ Mono\ 12
+    "set guifont=Liberation\ Mono:h16
+    set guifont=Liberation\ Mono\ 12
     set guicursor+=n-v-c:blinkon0
     "set guioptions+=e
     set guioptions-=r

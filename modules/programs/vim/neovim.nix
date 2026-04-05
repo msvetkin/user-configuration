@@ -48,12 +48,7 @@ in {
 
       # LSP / completion
       nvim-lspconfig
-      nvim-cmp
-      cmp-nvim-lsp
-      cmp-buffer
-      cmp-path
-      luasnip
-      cmp_luasnip
+      blink-cmp
 
       # File explorer
       nvim-tree-lua
@@ -72,6 +67,9 @@ in {
 
       # Autopairs
       nvim-autopairs
+
+      # Trailing whitespace
+      mini-nvim
 
       # Comments
       comment-nvim
@@ -134,7 +132,7 @@ in {
 
       set shortmess+=tToOI
 
-      set guifont=Liberation\ Mono:h16
+      set guifont=Liberation\ Mono:h12
       set guicursor+=n-v-c:blinkon0
       set guioptions-=r
       set guioptions-=R
@@ -158,12 +156,6 @@ in {
       set clipboard=unnamedplus
       set iminsert=0
 
-      highlight ExtraWhitespace ctermbg=red guibg=red
-      match ExtraWhitespace /\s\+$/
-      autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
-      autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
-      autocmd InsertLeave * match ExtraWhitespace /\s\+$/
-      autocmd BufWinLeave * call clearmatches()
 
       imap <S-Tab> <Esc> :tabNext <CR>
       map <S-Tab> :tabNext <CR>
@@ -192,6 +184,7 @@ in {
       let g:neovide_cursor_animation_length = 0
       let g:neovide_cursor_trail_size = 0
       let g:neovide_scroll_animation_length = 0
+      let g:neovide_position_animation_length = 0
     '';
     initLua = ''
       -- Colorscheme
@@ -215,9 +208,21 @@ in {
       require('telescope').setup {}
       require('telescope').load_extension('fzf')
       local builtin = require('telescope.builtin')
+      local function live_grep_git_root(opts)
+        local git_root = vim.trim(vim.fn.system('git rev-parse --show-toplevel'))
+        opts = vim.tbl_extend('force', opts or {},
+          vim.v.shell_error == 0 and { cwd = git_root } or {}
+        )
+        builtin.live_grep(opts)
+      end
       vim.keymap.set('n', '<C-p>', builtin.git_files, { noremap = true, silent = true })
       vim.keymap.set('n', '<C-f>', builtin.find_files, { noremap = true, silent = true })
-      vim.keymap.set('n', '<C-F>f', builtin.live_grep, { noremap = true, silent = true })
+      vim.keymap.set('n', '<C-F>f', live_grep_git_root, { noremap = true, silent = true })
+      vim.keymap.set('v', '<C-F>f', function()
+        vim.cmd('noau normal! "vy"')
+        local selected = vim.fn.getreg('v')
+        live_grep_git_root({ default_text = selected })
+      end, { noremap = true, silent = true })
       vim.keymap.set('n', '<C-F>o', builtin.resume, { noremap = true, silent = true })
 
       -- indent-blankline (replaces indentLine)
@@ -225,6 +230,10 @@ in {
 
       -- nvim-autopairs (replaces auto-pairs)
       require('nvim-autopairs').setup {}
+
+      -- trailing whitespace highlight
+      require('mini.trailspace').setup()
+      vim.api.nvim_set_hl(0, 'MiniTrailspace', { bg = '#cc241d' })
 
       -- Comment.nvim (replaces nerdcommenter)
       require('Comment').setup {}
@@ -235,9 +244,20 @@ in {
 
       -- LSP (nvim 0.11 API)
       vim.lsp.config('*', {
-        capabilities = require('cmp_nvim_lsp').default_capabilities(),
+        capabilities = require('blink.cmp').get_lsp_capabilities(),
       })
       vim.lsp.enable({ 'clangd', 'rust_analyzer', 'pyright' })
+
+      -- Set diagnostic configuration to control float display
+      vim.diagnostic.config({
+        update_in_insert = true,
+        float = {
+          source = 'if_many',    -- Display source if there are many sources
+          border = 'rounded',    -- Border style (can be 'none', 'single', 'double', 'rounded', etc.)
+          max_width = 120,       -- Maximum width of the float (can also control text wrapping here)
+          max_height = 60,       -- Maximum height (control the number of lines shown)
+        },
+      })
 
       -- Show diagnostic float automatically when cursor rests on an error
       vim.api.nvim_create_autocmd('CursorHold', {
@@ -258,37 +278,20 @@ in {
       vim.keymap.set('n', '<leader>f', function() vim.lsp.buf.format { async = true } end, { silent = true })
       vim.keymap.set('n', '<space>a', vim.diagnostic.setloclist, { silent = true })
 
-      -- nvim-cmp (replaces coc completion)
-      local cmp = require('cmp')
-      local luasnip = require('luasnip')
-
-      cmp.setup {
-        snippet = {
-          expand = function(args) luasnip.lsp_expand(args.body) end,
+      -- blink.cmp
+      require('blink.cmp').setup({
+        keymap = {
+          ['<Tab>']     = { 'select_next', 'fallback' },
+          ['<S-Tab>']   = { 'select_prev', 'fallback' },
+          ['<CR>']      = { 'accept', 'fallback' },
+          ['<C-Space>'] = { 'show', 'fallback' },
         },
-        mapping = cmp.mapping.preset.insert({
-          ['<Tab>'] = cmp.mapping(function(fallback)
-            if cmp.visible() then cmp.select_next_item()
-            elseif luasnip.expand_or_jumpable() then luasnip.expand_or_jump()
-            else fallback() end
-          end, { 'i', 's' }),
-          ['<S-Tab>'] = cmp.mapping(function(fallback)
-            if cmp.visible() then cmp.select_prev_item()
-            elseif luasnip.jumpable(-1) then luasnip.jump(-1)
-            else fallback() end
-          end, { 'i', 's' }),
-          ['<CR>'] = cmp.mapping.confirm({ select = true }),
-          ['<C-Space>'] = cmp.mapping.complete(),
-        }),
-        sources = cmp.config.sources(
-          { { name = 'nvim_lsp' }, { name = 'luasnip' } },
-          { { name = 'buffer' }, { name = 'path' } }
-        ),
-      }
-
-      -- autopairs + cmp integration
-      local cmp_autopairs = require('nvim-autopairs.completion.cmp')
-      cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
+        sources = { default = { 'lsp', 'snippets', 'buffer', 'path' } },
+        signature = {
+          enabled = true,
+          window = { border = 'rounded' },
+        },
+      })
 
       ${if enableClionColors then clionColors else ""}
     '';
@@ -302,9 +305,16 @@ in {
 
   home.packages = [
     pkgs.neovide
+    pkgs.xclip
   ];
 
+  xdg.configFile."neovide/config.toml".text = ''
+    [font]
+    normal = [{ family = "Liberation Mono" }]
+    size = 12.0
+  '';
+
   programs.zsh.shellAliases = {
-    gvim = "${pkgs.neovide}/bin/neovide";
+    gvim = "${pkgs.neovide}/bin/neovide --fork";
   };
 }
