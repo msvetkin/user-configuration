@@ -16,7 +16,8 @@ config.hide_tab_bar_if_only_one_tab = true
 config.font = wezterm.font 'Liberation Mono'
 config.font_size = 12
 -- config.color_scheme = 'Materia (base16)'
-config.color_scheme = 'Material Darker (base16)'
+-- config.color_scheme = 'Material Darker (base16)'
+config.color_scheme = 'kanagawabones'
 
 config.keys = {
   { key = 'Escape', mods = 'ALT', action = wezterm.action.ActivateCopyMode },
