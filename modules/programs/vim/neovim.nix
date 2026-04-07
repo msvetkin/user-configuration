@@ -229,7 +229,8 @@ in {
       require('ibl').setup {}
 
       -- nvim-autopairs (replaces auto-pairs)
-      require('nvim-autopairs').setup {}
+      -- map_cr = false: let blink.cmp own <CR> for accepting completions
+      require('nvim-autopairs').setup { map_cr = false }
 
       -- trailing whitespace highlight
       require('mini.trailspace').setup()

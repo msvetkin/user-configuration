@@ -4,12 +4,12 @@
 {
   services.picom = {
     enable = false;
-    # settings = {
+    settings = {
       # frame-opacity = 0.2;
       # detect-rounded-corners = true;
       # corner-radius = 20;
-    # };
-    # shadow = true;
+    };
+    shadow = true;
 
     # For NVIDIA, we can run with the simpler xrender backend,
     # which does not do vsync

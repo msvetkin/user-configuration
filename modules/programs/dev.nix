@@ -5,14 +5,14 @@
     # ctags
     # cmake
     # clang-tools
-    #cmake
-    # ninja
-    # gdb
-    # gnumake
-    # pre-commit
+    # cmake
+    ninja
+    gdb
+    gnumake
+    pre-commit
     # python3
-    #zip
-    #unzip
+    zip
+    unzip
   ];
 
   imports = [
