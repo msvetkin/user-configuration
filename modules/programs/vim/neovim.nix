@@ -194,8 +194,34 @@ in {
       -- Treesitter (v1 API)
       require('nvim-treesitter').setup()
 
-      -- nvim-tree (replaces NERDTree)
-      require('nvim-tree').setup {}
+      -- nvim-tree (replaces NERDTree) with NERDTree-compatible bindings
+      require('nvim-tree').setup {
+        on_attach = function(bufnr)
+          local api = require('nvim-tree.api')
+          local opts = function(desc)
+            return { desc = 'nvim-tree: ' .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
+          end
+
+          -- Default bindings as base
+          api.config.mappings.default_on_attach(bufnr)
+
+          -- NERDTree-compatible overrides
+          vim.keymap.set('n', 'i',     api.node.open.horizontal,       opts('Open: Horizontal Split'))
+          vim.keymap.set('n', 's',     api.node.open.vertical,         opts('Open: Vertical Split'))
+          vim.keymap.set('n', 't',     api.node.open.tab,              opts('Open: New Tab'))
+          vim.keymap.set('n', 'x',     api.node.navigate.parent_close, opts('Close Directory'))
+          vim.keymap.set('n', 'X',     api.tree.collapse_all,          opts('Collapse All'))
+          vim.keymap.set('n', 'I',     api.tree.toggle_hidden_filter,  opts('Toggle Hidden Files'))
+          vim.keymap.set('n', 'C',     api.tree.change_root_to_node,   opts('CD into Directory'))
+
+          -- Remove conflicting defaults that were remapped above
+          vim.keymap.del('n', '<C-x>', { buffer = bufnr })
+          vim.keymap.del('n', '<C-v>', { buffer = bufnr })
+          vim.keymap.del('n', '<C-t>', { buffer = bufnr })
+          vim.keymap.del('n', 'W',     { buffer = bufnr })
+          vim.keymap.del('n', 'H',     { buffer = bufnr })
+        end,
+      }
       vim.keymap.set('n', '<F11>', ':NvimTreeToggle<CR>', { noremap = true, silent = true })
 
       -- lualine (replaces vim-airline)
