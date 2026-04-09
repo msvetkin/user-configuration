@@ -313,6 +313,9 @@ in {
           ['<CR>']      = { 'accept', 'fallback' },
           ['<C-Space>'] = { 'show', 'fallback' },
         },
+        completion = {
+          list = { selection = { preselect = true } },
+        },
         sources = { default = { 'lsp', 'snippets', 'buffer', 'path' } },
         signature = {
           enabled = true,
