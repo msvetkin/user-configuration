@@ -273,7 +273,7 @@ in {
       vim.lsp.config('*', {
         capabilities = require('blink.cmp').get_lsp_capabilities(),
       })
-      vim.lsp.enable({ 'clangd', 'rust_analyzer', 'pyright' })
+      vim.lsp.enable({ 'clangd', 'rust_analyzer', 'pyright', 'cmake' })
 
       -- Set diagnostic configuration to control float display
       vim.diagnostic.config({
@@ -331,6 +331,7 @@ in {
     pkgs.clang-tools
     pkgs.rust-analyzer
     pkgs.pyright
+    pkgs.cmake-language-server
   ];
 
   home.packages = [
