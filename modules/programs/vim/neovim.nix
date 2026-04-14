@@ -314,7 +314,7 @@ in {
           ['<C-Space>'] = { 'show', 'fallback' },
         },
         completion = {
-          list = { selection = { preselect = true } },
+          list = { selection = { preselect = true, auto_insert = false } },
         },
         sources = { default = { 'lsp', 'snippets', 'buffer', 'path' } },
         signature = {
