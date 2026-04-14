@@ -187,6 +187,14 @@ in {
       let g:neovide_position_animation_length = 0
     '';
     initLua = ''
+      -- Window title: show cwd basename (useful in i3 tabbed mode)
+      vim.o.title = true
+      vim.api.nvim_create_autocmd({ 'VimEnter', 'DirChanged' }, {
+        callback = function()
+          vim.o.titlestring = vim.fn.fnamemodify(vim.fn.getcwd(), ':t')
+        end,
+      })
+
       -- Colorscheme
       require('kanagruvbox').setup({ theme = "wave" })
       vim.cmd('colorscheme kanagruvbox')
