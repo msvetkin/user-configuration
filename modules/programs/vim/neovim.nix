@@ -318,7 +318,14 @@ in {
         keymap = {
           ['<Tab>']     = { 'select_next', 'fallback' },
           ['<S-Tab>']   = { 'select_prev', 'fallback' },
-          ['<CR>']      = { 'accept', 'fallback' },
+          ['<Down>']    = { 'select_next', 'fallback' },
+          ['<Up>']      = { 'select_prev', 'fallback' },
+          ['<CR>'] = {
+            function(cmp)
+              if cmp.is_visible() then return cmp.accept() end
+            end,
+            'fallback'
+          },
           ['<C-Space>'] = { 'show', 'fallback' },
         },
         completion = {
