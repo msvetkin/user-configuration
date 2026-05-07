@@ -78,6 +78,12 @@ function M.setup(colors, config)
         -- parameters indistinguishable from const methods. Restore per-kind colors.
         ["@lsp.typemod.parameter.readonly"] = { link = "@variable.parameter" },
         ["@lsp.typemod.method.readonly"]    = { fg = theme.syn.fun, bold = true },
+
+        -- Local (function-scope) variables: assign a real color so they are
+        -- distinguishable from cBlock-colored incomplete/invalid code.
+        -- lightBlue (#A3D4D5) is unused in the palette and sits between
+        -- springBlue (properties) and waveAqua2 (types) without colliding.
+        ["@lsp.typemod.variable.functionScope"] = { fg = palette.lightBlue },
     }
 end
 
