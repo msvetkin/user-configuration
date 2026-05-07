@@ -21,6 +21,9 @@ config.color_scheme = 'kanagawabones'
 
 config.keys = {
   { key = 'Escape', mods = 'ALT', action = wezterm.action.ActivateCopyMode },
+  { key = 'LeftArrow', mods = 'CTRL|SHIFT', action = wezterm.action.MoveTabRelative(-1) },
+  { key = 'RightArrow', mods = 'CTRL|SHIFT', action = wezterm.action.MoveTabRelative(1) },
+  { key = 'Tab', mods = 'SHIFT', action = wezterm.action.ActivateTabRelative(-1) },
 }
 
 for i = 1, 8 do
