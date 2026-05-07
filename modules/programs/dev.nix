@@ -2,6 +2,8 @@
 
 {
   home.packages = with pkgs; [
+    claude-code
+
     # ctags
     # cmake
     # clang-tools
@@ -13,6 +15,12 @@
     # python3
     zip
     unzip
+
+    # docker
+    colima
+    docker-client
+    docker-compose
+    qemu
   ];
 
   imports = [
