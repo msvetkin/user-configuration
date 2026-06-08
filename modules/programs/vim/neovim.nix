@@ -319,7 +319,7 @@ in {
           preset = 'default',
           ['<Tab>']   = { 'select_next', 'fallback' },
           ['<S-Tab>'] = { 'select_prev', 'fallback' },
-          ['<CR>']    = { 'select_and_accept', 'fallback' },
+          ['<CR>']    = { 'accept', 'fallback' },
           ['<C-Space>'] = { 'show', 'fallback' },
         },
         completion = {
