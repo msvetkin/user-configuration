@@ -1,9 +1,7 @@
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 {
   home.packages = with pkgs; [
-    claude-code
-
     # ctags
     # cmake
     # clang-tools
@@ -21,6 +19,8 @@
     docker-client
     docker-compose
     qemu
+  ] ++ lib.optionals stdenv.isDarwin [
+    claude-code
   ];
 
   imports = [
