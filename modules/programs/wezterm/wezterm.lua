@@ -14,7 +14,7 @@ config.show_tab_index_in_tab_bar = false
 config.hide_tab_bar_if_only_one_tab = true
 
 config.font = wezterm.font 'Liberation Mono'
-config.font_size = 12
+config.font_size = wezterm.target_triple:find('darwin') and 14 or 12
 -- config.color_scheme = 'Materia (base16)'
 -- config.color_scheme = 'Material Darker (base16)'
 config.color_scheme = 'kanagawabones'

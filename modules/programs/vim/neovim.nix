@@ -132,7 +132,7 @@ in {
 
       set shortmess+=tToOI
 
-      set guifont=Liberation\ Mono:h12
+      set guifont=Liberation\ Mono:h${if pkgs.stdenv.isDarwin then "14" else "12"}
       set guicursor+=n-v-c:blinkon0
       set guioptions-=r
       set guioptions-=R
@@ -351,7 +351,7 @@ in {
   xdg.configFile."neovide/config.toml".text = ''
     [font]
     normal = [{ family = "Liberation Mono" }]
-    size = 12.0
+    size = ${if pkgs.stdenv.isDarwin then "14.0" else "12.0"}
   '';
 
   programs.zsh.shellAliases = {
