@@ -69,7 +69,6 @@ in
      pkgs.vimPlugins.tagbar
      #pkgs.vimPlugins.cocoa.vim
      # pkgs.vimPlugins.YouCompleteMe
-     pkgs.vimPlugins.vim-qml
      pkgs.vimPlugins.vim-fugitive
      pkgs.vimPlugins.vim-move
      pkgs.vimPlugins.auto-pairs

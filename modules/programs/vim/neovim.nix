@@ -92,9 +92,6 @@ in {
       # Text objects
       vim-indent-object
 
-      # QML syntax (no treesitter grammar yet)
-      vim-qml
-
       # Markdown TOC
       vim-markdown-toc
 
