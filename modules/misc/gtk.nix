@@ -14,6 +14,8 @@
       };
     };
 
+    dconf.settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
+
     home = {
       packages = [
         pkgs.libcanberra-gtk3
