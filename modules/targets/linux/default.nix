@@ -19,6 +19,7 @@ in
       configuration = "laptop";
       isLaptop = true;
       displays = [ "eDP-1" ];
+      hasNvidia = true;
     };
   };
 
@@ -31,6 +32,20 @@ in
       configuration = "desktop";
       isLaptop = false;
       displays = [ "HDMI-0" "DP-0" ];
+      hasNvidia = true;
+    };
+  };
+
+  galactica = home-manager.lib.homeManagerConfiguration {
+    inherit pkgs;
+
+    modules = [ ./home.nix ];
+    extraSpecialArgs = {
+      username = "${username}";
+      configuration = "galactica";
+      isLaptop = false;
+      displays = [ "DP-2-1" "HDMI-1" "DP-2-8" ];
+      hasNvidia = false;
     };
   };
 }

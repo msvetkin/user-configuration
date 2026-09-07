@@ -12,7 +12,7 @@ function display_usage() {
 	cat <<EOF
 usage: $0 [--profile=<profile>] [--dry-run]
 
-  --profile  home-manager profile, laptop or desktop (default: ${profile_arg})
+  --profile  home-manager profile, laptop, desktop or galactica (default: ${profile_arg})
   --dry-run  print every command instead of running it
 EOF
 	exit 1
@@ -34,10 +34,13 @@ while [[ $# -gt 0 ]]; do
 	shift
 done
 
-if [ "${profile_arg}" != "laptop" ] && [ "${profile_arg}" != "desktop" ]; then
-	echo "error: profile must be laptop or desktop."
-	exit 1
-fi
+case "${profile_arg}" in
+	laptop | desktop | galactica) ;;
+	*)
+		echo "error: profile must be laptop, desktop or galactica."
+		exit 1
+		;;
+esac
 
 # makepkg refuses to build as root, and home-manager writes into this account's profile.
 if [ "$(id -u)" -eq 0 ]; then

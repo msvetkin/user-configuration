@@ -1,4 +1,4 @@
-{ config, pkgs, username, configuration, ... }:
+{ config, lib, pkgs, username, configuration, hasNvidia, ... }:
 let
 
 in
@@ -65,7 +65,9 @@ in
   };
 
   targets.genericLinux.enable = true;
-  targets.genericLinux.gpu.nvidia = {
+  # Mesa comes with the generic GPU setup; only add the proprietary driver on
+  # hosts that actually have an Nvidia card.
+  targets.genericLinux.gpu.nvidia = lib.mkIf hasNvidia {
     enable = true;
     version = "580.159.04";
     sha256 = "sha256-weZnYbCI0Xs632y2l53przi+JoTRArABoXbc+vq9yh4=";
