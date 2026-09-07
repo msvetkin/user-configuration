@@ -1,8 +1,7 @@
-{ nixpkgs, nixgl, home-manager, username, ... }:
+{ nixpkgs, home-manager, username, ... }:
 let
   pkgs = import nixpkgs {
     system = "x86_64-linux";
-    overlays = [ nixgl.overlay ];
     config.allowUnfreePredicate = pkg: builtins.elem (pkgs.lib.getName pkg) [
       "nvidia-x11"
     ];
