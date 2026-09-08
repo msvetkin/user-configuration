@@ -3,6 +3,7 @@
 {
   home.packages = [
     pkgs.meld
+    pkgs.tig
   ];
 
   # xdg.systemDirs.data = [
