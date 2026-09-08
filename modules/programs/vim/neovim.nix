@@ -79,6 +79,7 @@ in {
 
       # Git
       vim-fugitive
+      diffview-nvim
 
       # Alignment
       vim-easy-align
@@ -269,6 +270,13 @@ in {
 
       -- Comment.nvim (replaces nerdcommenter)
       require('Comment').setup {}
+
+      -- diffview
+      require('diffview').setup {}
+      vim.keymap.set('n', '<leader>gd', ':DiffviewOpen<CR>', { noremap = true, silent = true })
+      vim.keymap.set('n', '<leader>gh', ':DiffviewFileHistory %<CR>', { noremap = true, silent = true })
+      vim.keymap.set('n', '<leader>gl', ':DiffviewFileHistory<CR>', { noremap = true, silent = true })
+      vim.keymap.set('n', '<leader>gq', ':DiffviewClose<CR>', { noremap = true, silent = true })
 
       -- aerial (replaces tagbar, LSP-based)
       require('aerial').setup {}
