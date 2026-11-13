@@ -287,6 +287,7 @@ in {
         capabilities = require('blink.cmp').get_lsp_capabilities(),
       })
       vim.lsp.enable({ 'clangd', 'rust_analyzer', 'pyright', 'cmake' })
+      vim.lsp.inlay_hint.enable(true)
 
       -- Set diagnostic configuration to control float display
       vim.diagnostic.config({
@@ -317,6 +318,9 @@ in {
       vim.keymap.set('n', '<leader>ac', vim.lsp.buf.code_action, { silent = true })
       vim.keymap.set('n', '<leader>f', function() vim.lsp.buf.format { async = true } end, { silent = true })
       vim.keymap.set('n', '<space>a', vim.diagnostic.setloclist, { silent = true })
+      vim.keymap.set('n', '<leader>ih', function()
+        vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+      end, { silent = true })
 
       -- blink.cmp
       require('blink.cmp').setup({
