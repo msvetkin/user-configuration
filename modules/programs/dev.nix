@@ -13,12 +13,6 @@
     # python3
     zip
     unzip
-
-    # docker
-    colima
-    docker-client
-    docker-compose
-    qemu
   ] ++ lib.optionals stdenv.isDarwin [
     claude-code
   ];

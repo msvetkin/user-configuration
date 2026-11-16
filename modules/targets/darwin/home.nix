@@ -2,7 +2,13 @@
 let
 
 in {
-  home.packages = [
+  home.packages = with pkgs; [
+    # docker (macOS only)
+    colima
+    docker-client
+    docker-compose
+    qemu
+  ] ++ [
     (pkgs.writeShellScriptBin "home-manager-switch" ''
       sudo darwin-rebuild switch \
         --flake ~/code/github/user-configuration#${configuration}
