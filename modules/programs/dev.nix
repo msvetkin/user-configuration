@@ -11,6 +11,7 @@
     gnumake
     pre-commit
     # python3
+    nodejs
     zip
     unzip
   ] ++ lib.optionals stdenv.isDarwin [
