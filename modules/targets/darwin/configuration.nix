@@ -54,6 +54,7 @@ in
       #upgrade = true;
     };
     casks = [
+      "claude-code@latest"
       "wezterm"
     ];
   };
