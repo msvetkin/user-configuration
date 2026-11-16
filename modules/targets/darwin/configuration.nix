@@ -29,6 +29,8 @@ in
       "openjdk@17"
       "openjdk@11"
       "cmake"
+      "gcc"
+      "llvm"
       "pkg-config"
       "ninja"
       "zip"
