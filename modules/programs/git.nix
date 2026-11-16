@@ -4,6 +4,7 @@
   home.packages = [
     pkgs.meld
     pkgs.tig
+    pkgs.git-filter-repo
   ];
 
   # xdg.systemDirs.data = [
